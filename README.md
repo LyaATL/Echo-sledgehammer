@@ -29,11 +29,12 @@ These bans are intended to protect the entire community from individuals who pos
 In addition to the global ban list for users, Echo Sledgehammer also maintains a **global file blacklist**.  
 This list contains file hashes and signatures of texture files (or similar modifications) that are known to cause crashes, instability, or other disruptive behavior when loaded in-game.  
 
-Examples include:  
+Examples include:
 - Texture or model files that are intentionally crafted to crash the client or overload resources  
 - Files that cause rendering glitches or instability across multiple systems  
 - Files distributed under the guise of normal mods but known to break core game functions  
-- Rare cases where a file may trigger a **0-day vulnerability** in the client — while extremely unlikely, the blacklist system provides a safeguard if such an issue is ever discovered  
+- Mods or files that depict or promote **underage NSFW content**  
+- Rare cases where a file may trigger a **0-day vulnerability** in the client — while extremely unlikely, the blacklist system provides a safeguard if such an issue is ever discovered 
 
 Each file entry includes:  
 - A cryptographic hash (for reliable identification)  
