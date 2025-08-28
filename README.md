@@ -34,7 +34,7 @@ Examples include:
 - Files that cause rendering glitches or instability across multiple systems  
 - Files distributed under the guise of normal mods but known to break core game functions  
 - Mods or files that depict or promote **underage NSFW content**  
-- Rare cases where a file may trigger a **0-day vulnerability** in the client — while extremely unlikely, the blacklist system provides a safeguard if such an issue is ever discovered 
+- Rare cases where a file may trigger a **0-day vulnerability** in the client. While extremely unlikely, the blacklist system provides a safeguard if such an issue is ever discovered 
 
 Each file entry includes:  
 - A cryptographic hash (for reliable identification)  
@@ -74,12 +74,19 @@ We do not collect or transmit:
 
 ## Privacy Commitments
 
-Data sent to the Echo service, Echo mesh or Echo Sledgehamer is the minimum necessary to uniquely identify a character for ban purposes.<br/>
+Data sent to/from the Echo service, Echo mesh or Echo Sledgehamer is the minimum necessary to uniquely identify a character for ban purposes.<br/>
 All ban entries must include the reason for the ban, but no additional personal data.<br/>
-Players should be made aware when a plugin is transmitting ban-related information.<br/>
 This ensures the global ban system remains effective without compromising player privacy.<br/>
 
 ## Notes
 Transparency: Ban reasons should be clearly documented when submitted.<br/>
 Appeals: If appropriate, processes for disputing or reviewing global bans should be implemented.<br/>
-Security: The system should prevent abuse of the submission mechanism (e.g., requiring signatures, moderator authentication, or quorum approval).<br/>
+
+## Disclaimer
+
+The Echo Sledgehammer ban list and file blacklist are provided **as-is**, without any guarantees or warranties.  
+While every effort is made to ensure entries are accurate and justified, there is no guarantee that the lists are complete, error-free, or up-to-date.  
+
+By using these lists, each host accepts full responsibility for how the information is applied within their own service.  
+Echo Sledgehammer maintainers are not liable for any damages, disruptions, or disputes that may arise from their use.  
+
