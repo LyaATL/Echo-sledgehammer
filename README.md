@@ -9,7 +9,7 @@ The goal of this project is to maintain a trusted, shared list of banned users a
 This reduces the risk of harmful actors simply moving from one service to another after being banned locally.
 Sledgehammer wil also inform echo-service instances of new/fresh players, to easily inform administrators/moderators.
 
-## Criteria for Global Ban
+## Criteria for Global client ban
 
 A global ban is only applied in cases of severe and verified misconduct.
 While local bans may vary depending on a host’s rules, inclusion in the global ban list is reserved for actions such as (but not limited to):
@@ -23,6 +23,26 @@ While local bans may vary depending on a host’s rules, inclusion in the global
 - Organized hate speech (targeted campaigns based on race, religion, gender, sexuality, etc.)
 
 These bans are intended to protect the entire community from individuals who pose a significant risk across platforms.
+
+## Global File Blacklist
+
+In addition to the global ban list for users, Echo Sledgehammer also maintains a **global file blacklist**.  
+This list contains file hashes and signatures of texture files (or similar modifications) that are known to cause crashes, instability, or other disruptive behavior when loaded in-game.  
+
+Examples include:  
+- Texture or model files that are intentionally crafted to crash the client or overload resources  
+- Files that cause rendering glitches or instability across multiple systems  
+- Files distributed under the guise of normal mods but known to break core game functions  
+- Rare cases where a file may trigger a **0-day vulnerability** in the client — while extremely unlikely, the blacklist system provides a safeguard if such an issue is ever discovered  
+
+Each file entry includes:  
+- A cryptographic hash (for reliable identification)  
+- The classification or reason for blacklisting (e.g., crash-texture, instability, exploit-suspected)  
+- (Optional) reference notes for transparency  
+
+Hosts can sync this blacklist and automatically block or warn against the use, upload, or distribution of flagged files within their own echo-service environment.  
+
+This helps prevent the spread of disruptive or malicious texture files across the ecosystem and improves overall stability for players.  
 
 ## How It Works
 
@@ -53,7 +73,7 @@ We do not collect or transmit:
 
 ## Privacy Commitments
 
-Data sent to the echo-service is the minimum necessary to uniquely identify a character for ban purposes.<br/>
+Data sent to the Echo service, Echo mesh or Echo Sledgehamer is the minimum necessary to uniquely identify a character for ban purposes.<br/>
 All ban entries must include the reason for the ban, but no additional personal data.<br/>
 Players should be made aware when a plugin is transmitting ban-related information.<br/>
 This ensures the global ban system remains effective without compromising player privacy.<br/>
