@@ -14,13 +14,13 @@ Sledgehammer wil also inform echo-service instances of new/fresh players, to eas
 A global ban is only applied in cases of severe and verified misconduct.
 While local bans may vary depending on a host’s rules, inclusion in the global ban list is reserved for actions such as (but not limited to):
 
-Child exploitation or pedophilia (e.g., possession, sharing, or promotion of such material)
-Sexual assault, harassment, or grooming
-Terrorism-related activity (organizing, recruiting, or promoting violent extremism)
-Severe threats of violence or credible intent to harm others
-Distribution of malware, botnets, or large-scale attacks against other services
-Identity theft, fraud, or large-scale scams
-Organized hate speech (targeted campaigns based on race, religion, gender, sexuality, etc.)
+- Child exploitation or pedophilia (e.g., possession, sharing, or promotion of such material)
+- Sexual assault, harassment, or grooming
+- Terrorism-related activity (organizing, recruiting, or promoting violent extremism)
+- Severe threats of violence or credible intent to harm others
+- Distribution of malware, botnets, or large-scale attacks against other services
+- Identity theft, fraud, or large-scale scams
+- Organized hate speech (targeted campaigns based on race, religion, gender, sexuality, etc.)
 
 These bans are intended to protect the entire community from individuals who pose a significant risk across platforms.
 
