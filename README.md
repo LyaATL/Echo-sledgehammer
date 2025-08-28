@@ -32,6 +32,32 @@ When a ban meets the global criteria, the host may submit it to the centralized 
 Submissions are verified and, if approved, propagated to the global ban list.
 Other echo-service instances can sync this list to keep their communities safe.
 
+## Privacy & Data Collection Disclaimer
+
+The Echo sledgehammer system requires a way to map and match players to enforce bans consistently across services. This mapping is done by the client plugin (running within FFXIV via Dalamud) sending identifying information to an echo-service instance.
+
+### What Information Is Collected
+
+To remain as privacy-neutral as possible, we avoid gathering sensitive or personally identifying data. Instead, we rely on in-game identifiers that are already public in FFXIV. Examples include:
+- Character Name (as displayed in-game)
+- World / Data Center (to disambiguate players with the same name)
+- Character ID / Lodestone ID (publicly available numeric ID tied to Lodestone profiles)
+
+### What Information Is Not Collected
+
+We do not collect or transmit:
+- Hardware identifiers (HWID, MAC, serial numbers, etc.)
+- Email addresses or account credentials
+- Chat logs or personal messages
+- Any other personal data outside the game context
+
+## Privacy Commitments
+
+Data sent to the echo-service is the minimum necessary to uniquely identify a character for ban purposes.
+All ban entries must include the reason for the ban, but no additional personal data.
+Players should be made aware when a plugin is transmitting ban-related information.
+This ensures the global ban system remains effective without compromising player privacy.
+
 ## Notes
 Transparency: Ban reasons should be clearly documented when submitted.<br/>
 Appeals: If appropriate, processes for disputing or reviewing global bans should be implemented.<br/>
