@@ -33,6 +33,6 @@ Submissions are verified and, if approved, propagated to the global ban list.
 Other echo-service instances can sync this list to keep their communities safe.
 
 ## Notes
-Transparency: Ban reasons should be clearly documented when submitted.
-Appeals: If appropriate, processes for disputing or reviewing global bans should be implemented.
-Security: The system should prevent abuse of the submission mechanism (e.g., requiring signatures, moderator authentication, or quorum approval).
+Transparency: Ban reasons should be clearly documented when submitted.<br/>
+Appeals: If appropriate, processes for disputing or reviewing global bans should be implemented.<br/>
+Security: The system should prevent abuse of the submission mechanism (e.g., requiring signatures, moderator authentication, or quorum approval).<br/>
