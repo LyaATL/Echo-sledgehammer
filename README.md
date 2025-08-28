@@ -53,10 +53,10 @@ We do not collect or transmit:
 
 ## Privacy Commitments
 
-Data sent to the echo-service is the minimum necessary to uniquely identify a character for ban purposes.
-All ban entries must include the reason for the ban, but no additional personal data.
-Players should be made aware when a plugin is transmitting ban-related information.
-This ensures the global ban system remains effective without compromising player privacy.
+Data sent to the echo-service is the minimum necessary to uniquely identify a character for ban purposes.<br/>
+All ban entries must include the reason for the ban, but no additional personal data.<br/>
+Players should be made aware when a plugin is transmitting ban-related information.<br/>
+This ensures the global ban system remains effective without compromising player privacy.<br/>
 
 ## Notes
 Transparency: Ban reasons should be clearly documented when submitted.<br/>
