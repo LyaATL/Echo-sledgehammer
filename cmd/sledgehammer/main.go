@@ -150,7 +150,7 @@ func main() {
 
 	r.Post("/bans/{world}/player/{id}", func(w http.ResponseWriter, r *http.Request) {
 		totalPlayerBans.Inc()
-		apiHandler.AddClientBan(w, r)
+		apiHandler.RequestClientBan(w, r)
 	})
 
 	r.Get("/bans/file/{hash}", apiHandler.FetchFileBanstatus)
@@ -160,7 +160,7 @@ func main() {
 	})
 	r.Post("/bans/file/{hash}", func(w http.ResponseWriter, r *http.Request) {
 		totalFileBans.Inc()
-		apiHandler.AddFileBan(w, r)
+		apiHandler.RequestFileBan(w, r)
 	})
 
 	// Prometheus metrics

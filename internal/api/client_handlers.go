@@ -7,8 +7,8 @@ import (
 	"sledgehammer.echo-mesh.com/internal/models"
 )
 
-// AddClientBan TODO Move into moderation package. Replace this with report instead.
-func (a *API) AddClientBan(w http.ResponseWriter, r *http.Request) {
+// RequestClientBan TODO Move into moderation package. Replace this with report instead.
+func (a *API) RequestClientBan(w http.ResponseWriter, r *http.Request) {
 	var input struct {
 		Character   string `json:"character"`
 		World       string `json:"world"`
@@ -29,7 +29,7 @@ func (a *API) AddClientBan(w http.ResponseWriter, r *http.Request) {
 		SubmittedBy: input.SubmittedBy,
 	}
 
-	if err := a.Store.AddClientBan(ban); err != nil {
+	if err := a.Store.RequestClientBan(ban); err != nil {
 		http.Error(w, "failed to add ban", http.StatusInternalServerError)
 		return
 	}

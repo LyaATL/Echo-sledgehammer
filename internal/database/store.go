@@ -3,7 +3,6 @@ package database
 import (
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"sledgehammer.echo-mesh.com/internal/models"
 )
@@ -20,52 +19,63 @@ func (s *Store) InitSchema() error {
 	schema := `
     CREATE TABLE IF NOT EXISTS client_bans (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        character TEXT NOT NULL,
-        world TEXT NOT NULL,
-        lodestone_id TEXT,
-        reason TEXT NOT NULL,
-        created_at TIMESTAMP NOT NULL,
-        submitted_by TEXT NOT NULL
+		character TEXT NOT NULL,
+		world TEXT NOT NULL,
+		lodestone_id TEXT,
+		reason TEXT NOT NULL,
+		created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		submitted_by TEXT NOT NULL,
+		approved_by TEXT,
+		approved_at TIMESTAMP,
+		status TEXT NOT NULL CHECK (status IN ('pending', 'approved', 'rejected')) DEFAULT 'pending',
+		 
+		FOREIGN KEY (approved_by) REFERENCES management(username)
     );
 
 	CREATE TABLE IF NOT EXISTS file_bans (
-	    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+	    id INTEGER PRIMARY KEY AUTOINCREMENT,
+	    filename TEXT NOT NULL,
 	    hash TEXT NOT NULL,
 	    signature TEXT,
         reason TEXT NOT NULL,
-        created_at TIMESTAMP NOT NULL,
-        submitted_by TEXT NOT NULL
+        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        submitted_by TEXT NOT NULL,
+	    approved_by TEXT NOT NULL,
+		approved_at TIMESTAMP,
+		status TEXT NOT NULL CHECK (status IN ('pending', 'approved', 'rejected')) DEFAULT 'pending',
+		
+		FOREIGN KEY (approved_by) REFERENCES management(username)
 	);
 	
-	CREATE TABLE IF NOT EXISTS management (
+	CREATE TABLE IF NOT EXISTS management_users (
 	    id INTEGER PRIMARY KEY AUTOINCREMENT,
 	    username TEXT NOT NULL UNIQUE,
 	    password TEXT NOT NULL,
+	    active BOOLEAN NOT NULL DEFAULT TRUE,
 	    role TEXT NOT NULL CHECK (role IN ('admin', 'moderator'))
-	)`
+	);
+
+	CREATE INDEX IF NOT EXISTS client_bans_character_world_idx ON client_bans (character, world);
+	CREATE INDEX IF NOT EXISTS file_bans_hash_idx ON file_bans (hash);`
 	_, err := s.db.Exec(schema)
 	return err
 }
 
-func (s *Store) AddClientBan(b models.ClientBan) error {
+func (s *Store) RequestClientBan(b models.ClientBan) error {
 	b.CreatedAt = time.Now().UTC()
 
 	_, err := s.db.NamedExec(`
-        INSERT INTO client_bans (character, world, lodestone_id, reason, created_at, submitted_by)
-        VALUES (character, :world, :lodestone_id, :reason, :created_at, :submitted_by)
+        INSERT INTO client_bans (character, world, lodestone_id, reason, submitted_by)
+        VALUES (character, :world, :lodestone_id, :reason, :submitted_by)
     `, b)
 	return err
 }
 
-func (s *Store) AddFileBan(b models.FileBan) error {
-	if b.ID == "" {
-		b.ID = uuid.New().String()
-	}
-	b.CreatedAt = time.Now().UTC()
+func (s *Store) RequestFileBan(b models.FileBan) error {
 
 	_, err := s.db.NamedExec(`
-        INSERT INTO file_bans (id, hash, signature, reason, created_at, submitted_by)
-        VALUES (:id, :hash, :signature, :reason, :created_at, :submitted_by)
+        INSERT INTO file_bans (filename, reason, submitted_by)
+        VALUES (:filename, :reason, :submitted_by)
     `, b)
 	return err
 }
@@ -97,7 +107,7 @@ func (s *Store) GetPasswordHashAndRole(username string) (string, string, error) 
 		Role         string `db:"role"`
 	}
 
-	err := s.db.Get(&set, "SELECT password, role FROM management WHERE username = ? ", username)
+	err := s.db.Get(&set, "SELECT password, role FROM management_users WHERE username = ? ", username)
 	if err != nil {
 		return "", "", err
 	}

@@ -7,12 +7,10 @@ import (
 	"sledgehammer.echo-mesh.com/internal/models"
 )
 
-// AddFileBan TODO Move into moderation package. Replace this with report instead.
-func (a *API) AddFileBan(w http.ResponseWriter, r *http.Request) {
+// RequestFileBan TODO Move into moderation package. Replace this with report instead.
+func (a *API) RequestFileBan(w http.ResponseWriter, r *http.Request) {
 	var input struct {
 		Filename    string `json:"filename"`
-		Hash        string `json:"hash"`
-		Signature   string `json:"signature"`
 		Reason      string `json:"reason"`
 		SubmittedBy string `json:"submittedBy"`
 	}
@@ -24,13 +22,11 @@ func (a *API) AddFileBan(w http.ResponseWriter, r *http.Request) {
 
 	fileBan := models.FileBan{
 		Filename:    input.Filename,
-		Hash:        input.Hash,
-		Signature:   input.Signature,
 		Reason:      input.Reason,
 		SubmittedBy: input.SubmittedBy,
 	}
 
-	if err := a.Store.AddFileBan(fileBan); err != nil {
+	if err := a.Store.RequestFileBan(fileBan); err != nil {
 		http.Error(w, "failed to add ban", http.StatusInternalServerError)
 		return
 	}
