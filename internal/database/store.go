@@ -29,22 +29,22 @@ func (s *Store) InitSchema() error {
 		approved_at TIMESTAMP,
 		status TEXT NOT NULL CHECK (status IN ('pending', 'approved', 'rejected')) DEFAULT 'pending',
 		 
-		FOREIGN KEY (approved_by) REFERENCES management(username)
+		FOREIGN KEY (approved_by) REFERENCES management_users(username)
     );
 
 	CREATE TABLE IF NOT EXISTS file_bans (
 	    id INTEGER PRIMARY KEY AUTOINCREMENT,
 	    filename TEXT NOT NULL,
-	    hash TEXT NOT NULL,
+	    hash TEXT,
 	    signature TEXT,
         reason TEXT NOT NULL,
         created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         submitted_by TEXT NOT NULL,
-	    approved_by TEXT NOT NULL,
+	    approved_by TEXT,
 		approved_at TIMESTAMP,
 		status TEXT NOT NULL CHECK (status IN ('pending', 'approved', 'rejected')) DEFAULT 'pending',
 		
-		FOREIGN KEY (approved_by) REFERENCES management(username)
+		FOREIGN KEY (approved_by) REFERENCES management_users(username)
 	);
 	
 	CREATE TABLE IF NOT EXISTS management_users (
