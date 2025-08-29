@@ -32,6 +32,7 @@ func main() {
 
 	apiHandler := &api.API{Store: clientBanStore}
 
+	// --- Prometheus metrics ---
 	requestCounter := prometheus.NewCounterVec(
 		prometheus.CounterOpts{
 			Name: "http_requests_total",
@@ -39,7 +40,31 @@ func main() {
 		},
 		[]string{"path", "method", "status"},
 	)
-	prometheus.MustRegister(requestCounter)
+
+	requestDuration := prometheus.NewHistogramVec(
+		prometheus.HistogramOpts{
+			Name:    "http_request_duration_seconds",
+			Help:    "Histogram of request latencies",
+			Buckets: prometheus.DefBuckets, // default: 0.005s → 10s
+		},
+		[]string{"path", "method", "status"},
+	)
+
+	inFlightRequests := prometheus.NewGauge(
+		prometheus.GaugeOpts{
+			Name: "http_in_flight_requests",
+			Help: "Current number of requests being processed",
+		},
+	)
+
+	totalBans := prometheus.NewCounter(
+		prometheus.CounterOpts{
+			Name: "ban_submissions_total",
+			Help: "Total number of ban submissions",
+		},
+	)
+
+	prometheus.MustRegister(requestCounter, requestDuration, inFlightRequests, totalBans)
 
 	r := chi.NewRouter()
 
@@ -47,9 +72,11 @@ func main() {
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Recoverer)
 
+	// Custom logging + metrics middleware
 	r.Use(func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			ww := middleware.NewWrapResponseWriter(w, r.ProtoMajor)
+			inFlightRequests.Inc()
 			start := time.Now()
 
 			next.ServeHTTP(ww, r)
@@ -61,16 +88,22 @@ func main() {
 				"method", r.Method,
 				"path", r.URL.Path,
 				"status", status,
-				"duration", duration.String(),
+				"duration", duration.Seconds(),
 				"remote", r.RemoteAddr,
 			)
 
-			requestCounter.WithLabelValues(r.URL.Path, r.Method, http.StatusText(status)).Inc()
+			labels := []string{r.URL.Path, r.Method, http.StatusText(status)}
+			requestCounter.WithLabelValues(labels...).Inc()
+			requestDuration.WithLabelValues(labels...).Observe(duration.Seconds())
+			inFlightRequests.Dec()
 		})
 	})
 
 	r.Get("/bans", apiHandler.ListBans)
-	r.Post("/bans", apiHandler.AddClientBan)
+	r.Post("/bans", func(w http.ResponseWriter, r *http.Request) {
+		totalBans.Inc()
+		apiHandler.AddClientBan(w, r)
+	})
 
 	// Prometheus metrics
 	r.Handle("/metrics", promhttp.Handler())
