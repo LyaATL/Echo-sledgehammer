@@ -14,6 +14,11 @@ type API struct {
 	Logger *zap.SugaredLogger
 }
 
+type PlayerParams struct {
+	CharacterID string
+	World       string
+}
+
 func validatePlayerParams(w http.ResponseWriter, r *http.Request) (*PlayerParams, bool) {
 	characterID := chi.URLParam(r, "id")
 	world := chi.URLParam(r, "world")

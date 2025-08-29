@@ -4,7 +4,7 @@ import "time"
 
 // ClientBan Ban represents a single global ban entry.
 type ClientBan struct {
-	ID          string    `db:"id" json:"id"`
+	ID          int       `db:"id" json:"id"`
 	Character   string    `db:"character" json:"character"`
 	World       string    `db:"world" json:"world"`
 	LodestoneID string    `db:"lodestone_id" json:"lodestoneId"`

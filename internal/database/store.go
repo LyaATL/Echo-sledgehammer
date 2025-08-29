@@ -19,7 +19,7 @@ func NewStore(db *sqlx.DB) *Store {
 func (s *Store) InitSchema() error {
 	schema := `
     CREATE TABLE IF NOT EXISTS client_bans (
-        id TEXT PRIMARY KEY,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         character TEXT NOT NULL,
         world TEXT NOT NULL,
         lodestone_id TEXT,
@@ -29,26 +29,30 @@ func (s *Store) InitSchema() error {
     );
 
 	CREATE TABLE IF NOT EXISTS file_bans (
-	    ID TEXT PRIMARY KEY,
+	    ID INTEGER PRIMARY KEY AUTOINCREMENT,
 	    hash TEXT NOT NULL,
 	    signature TEXT,
         reason TEXT NOT NULL,
         created_at TIMESTAMP NOT NULL,
         submitted_by TEXT NOT NULL
+	);
+	
+	CREATE TABLE IF NOT EXISTS management (
+	    id INTEGER PRIMARY KEY AUTOINCREMENT,
+	    username TEXT NOT NULL UNIQUE,
+	    password TEXT NOT NULL,
+	    role TEXT NOT NULL CHECK (role IN ('admin', 'moderator'))
 	)`
 	_, err := s.db.Exec(schema)
 	return err
 }
 
 func (s *Store) AddClientBan(b models.ClientBan) error {
-	if b.ID == "" {
-		b.ID = uuid.New().String()
-	}
 	b.CreatedAt = time.Now().UTC()
 
 	_, err := s.db.NamedExec(`
-        INSERT INTO client_bans (id, character, world, lodestone_id, reason, created_at, submitted_by)
-        VALUES (:id, :character, :world, :lodestone_id, :reason, :created_at, :submitted_by)
+        INSERT INTO client_bans (character, world, lodestone_id, reason, created_at, submitted_by)
+        VALUES (character, :world, :lodestone_id, :reason, :created_at, :submitted_by)
     `, b)
 	return err
 }
@@ -80,9 +84,22 @@ func (s *Store) GetPlayerBanInfo(character string, world string) (models.ClientB
 
 	err := s.db.Get(&ban, `
     		SELECT character, world, reason, created_at 
-    		FROM clientbans 
+    		FROM  client_bans 
     		WHERE character = ? AND world = ?`,
 		character, world)
 
 	return ban, err
+}
+
+func (s *Store) GetPasswordHashAndRole(username string) (string, string, error) {
+	var set struct {
+		PasswordHash string `db:"password_hash"`
+		Role         string `db:"role"`
+	}
+
+	err := s.db.Get(&set, "SELECT password, role FROM management WHERE username = ? ", username)
+	if err != nil {
+		return "", "", err
+	}
+	return set.PasswordHash, set.Role, nil
 }
