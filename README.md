@@ -156,6 +156,9 @@ Appeals: If appropriate, processes for disputing or reviewing global bans should
 
 ## Disclaimer
 
+This project, **Echo Sledgehammer**, is an independent work and has **no affiliation, connection, or association with Mare Synchronos** or its developers.  
+It does not use, depend on, or share any code or intellectual property from Mare Synchronos.
+
 The Echo Sledgehammer ban list and file blacklist are provided **as-is**, without any guarantees or warranties.  
 While every effort is made to ensure entries are accurate and justified, there is no guarantee that the lists are complete, error-free, or up-to-date.  
 
