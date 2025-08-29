@@ -63,16 +63,26 @@ func (a *API) Login(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]string{"token": tokenString})
 }
 
-func (a *API) ApproveBan(w http.ResponseWriter, r *http.Request) {}
+func (a *API) ApproveBan(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
 
-func (a *API) RejectBan(w http.ResponseWriter, r *http.Request) {}
+func (a *API) RejectBan(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
 
-func (a *API) DeleteBan(w http.ResponseWriter, r *http.Request) {}
+func (a *API) DeleteBan(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
 
-func (a *API) GetBanHistory(w http.ResponseWriter, r *http.Request) {}
+func (a *API) GetBanHistory(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
 
-func (a *API) GetWaitingForApprovalBans(w http.ResponseWriter, r *http.Request) {}
+func (a *API) GetWaitingForApprovalBans(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
 
-func (a *API) GetCurrentActiveBans(writer http.ResponseWriter, request *http.Request) {
-
+func (a *API) GetCurrentActiveBans(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
 }
