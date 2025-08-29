@@ -78,6 +78,78 @@ Data sent to/from the Echo service, Echo mesh or Echo Sledgehamer is the minimum
 All ban entries must include the reason for the ban, but no additional personal data.<br/>
 This ensures the global ban system remains effective without compromising player privacy.<br/>
 
+## How to Run
+
+### Using Docker Compose (Recommended)
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd echo-sledgehammer
+   ```
+
+2. **Start the service**
+   ```bash
+   docker-compose up --build
+   ```
+
+3. **Access the service**
+    - API: http://localhost:8080
+    - Metrics: http://localhost:8080/metrics
+
+4. **Stop the service**
+   ```bash
+   docker-compose down
+   ```
+
+### Using Docker
+
+1. **Build the image**
+   ```bash
+   docker build -t sledgehammer .
+   ```
+
+2. **Run the container**
+   ```bash
+   docker run -d \
+     --name sledgehammer \
+     -p 8080:8080 \
+     -v sledgehammer_data:/data \
+     -e DATABASE_PATH=/data/sledgehammer.db \
+     sledgehammer
+   ```
+
+### Local Development
+
+1. **Prerequisites**
+    - Go 1.24 or later
+    - SQLite3 development libraries
+
+2. **Install dependencies**
+   ```bash
+   go mod download
+   ```
+
+3. **Set environment variables**
+   ```bash
+   export DATABASE_PATH=./sledgehammer.db
+   ```
+
+4. **Run the application**
+   ```bash
+   go run ./cmd/sledgehammer
+   ```
+
+### API Endpoints
+
+- `GET /bans` - List all bans
+- `POST /bans` - Submit a new ban
+- `GET /metrics` - Prometheus metrics
+
+### Environment Variables
+
+- `DATABASE_PATH` - Path to SQLite database file (default: uses `os.Getenv("DATABASE_PATH")`)
+
 ## Notes
 Transparency: Ban reasons should be clearly documented when submitted.<br/>
 Appeals: If appropriate, processes for disputing or reviewing global bans should be implemented.<br/>
