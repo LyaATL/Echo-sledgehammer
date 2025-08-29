@@ -63,14 +63,16 @@ func (a *API) Login(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]string{"token": tokenString})
 }
 
-func (a *API) Logout() {}
+func (a *API) ApproveBan(w http.ResponseWriter, r *http.Request) {}
 
-func (a *API) ApproveBan() {}
+func (a *API) RejectBan(w http.ResponseWriter, r *http.Request) {}
 
-func (a *API) RejectBan() {}
+func (a *API) DeleteBan(w http.ResponseWriter, r *http.Request) {}
 
-func (a *API) DeleteBan() {}
+func (a *API) GetBanHistory(w http.ResponseWriter, r *http.Request) {}
 
-func (a *API) GetBanHistory() {}
+func (a *API) GetWaitingForApprovalBans(w http.ResponseWriter, r *http.Request) {}
 
-func (a *API) GetWaitingForApprovalBans() {}
+func (a *API) GetCurrentActiveBans(writer http.ResponseWriter, request *http.Request) {
+
+}

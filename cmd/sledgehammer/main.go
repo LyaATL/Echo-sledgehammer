@@ -125,6 +125,23 @@ func main() {
 		})
 	})
 
+	r.Post("/login", apiHandler.Login)
+	r.Group(func(authProtected chi.Router) {
+		authProtected.Use(middleware2.AuthMiddleware())
+
+		// Get
+		authProtected.Get("/management/ban-history", apiHandler.GetBanHistory)
+		authProtected.Get("/management/bans", apiHandler.GetCurrentActiveBans)
+		authProtected.Get("/management/waiting-bans", apiHandler.GetWaitingForApprovalBans)
+
+		// Post
+		authProtected.Post("/management/approve-ban", apiHandler.ApproveBan)
+		authProtected.Post("/management/reject-ban", apiHandler.RejectBan)
+
+		// Delete
+		authProtected.Delete("/management/ban", apiHandler.DeleteBan)
+	})
+
 	r.Get("/bans/{world}/player/{id}", apiHandler.FetchPlayerBanStatus)
 	r.Get("/bans/{world}/player/{id}/info", func(w http.ResponseWriter, r *http.Request) {
 		totalPlayerBansLookups.Inc()
