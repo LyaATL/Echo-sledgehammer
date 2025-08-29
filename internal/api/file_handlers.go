@@ -7,7 +7,6 @@ import (
 	"sledgehammer.echo-mesh.com/internal/models"
 )
 
-// RequestFileBan TODO Move into moderation package. Replace this with report instead.
 func (a *API) RequestFileBan(w http.ResponseWriter, r *http.Request) {
 	var input struct {
 		Filename    string `json:"filename"`

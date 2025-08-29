@@ -7,7 +7,6 @@ import (
 	"sledgehammer.echo-mesh.com/internal/models"
 )
 
-// RequestClientBan TODO Move into moderation package. Replace this with report instead.
 func (a *API) RequestClientBan(w http.ResponseWriter, r *http.Request) {
 	var input struct {
 		Character   string `json:"character"`
