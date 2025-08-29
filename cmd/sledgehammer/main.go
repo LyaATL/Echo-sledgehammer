@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/go-chi/chi/v5"
@@ -20,7 +21,7 @@ func main() {
 	defer logger.Sync()
 	sugar := logger.Sugar()
 
-	db, err := sqlx.Open("sqlite3", "./sledgehammer.db")
+	db, err := sqlx.Open("sqlite3", os.Getenv("DATABASE_PATH"))
 	if err != nil {
 		sugar.Fatalf("failed to open database: %v", err)
 	}
