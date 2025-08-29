@@ -1,4 +1,4 @@
-package clientbans
+package models
 
 import "time"
 
