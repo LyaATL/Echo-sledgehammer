@@ -14,6 +14,7 @@ import (
 	"go.uber.org/zap"
 	"sledgehammer.echo-mesh.com/internal/api"
 	"sledgehammer.echo-mesh.com/internal/clientbans"
+	middleware2 "sledgehammer.echo-mesh.com/internal/middleware"
 )
 
 func main() {
@@ -101,8 +102,8 @@ func main() {
 		})
 	})
 
-	r.Get("/bans", apiHandler.ListBans)
-	r.Post("/bans", func(w http.ResponseWriter, r *http.Request) {
+	r.With(middleware2.Ratelimit).Get("/bans", apiHandler.ListBans)
+	r.With(middleware2.Ratelimit).Post("/bans", func(w http.ResponseWriter, r *http.Request) {
 		totalBans.Inc()
 		apiHandler.AddClientBan(w, r)
 	})
